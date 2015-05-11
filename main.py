@@ -17,17 +17,18 @@ def decrypt(ciphertext, key):
     return f(ciphertext, key, -1)
 
 def regist(username, passwrd):
-    if(r.exist(username)):
+    if(r.exists(username)):
         return -1
 
     if(not len(passwrd)):
         return -1
+
     hash_object = hashlib.sha256(passwrd.encode())
     hex_dig = hash_object.hexdigest()
-    r.set(username,passwrd)
+    r.set(username,hex_dig)
     return 0
 
-
+print(regist("kirill","12345"))
 print(encrypt('GRONSFELD', '2015'))  # шифрование
 
 print(decrypt('IRPSUFFQF', '2015'))  # расшифровывание
