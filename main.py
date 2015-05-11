@@ -1,3 +1,5 @@
+##import redis
+
 A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' * 2  # алфавит
 def f(mc, k, op):
     k *= len(mc) // len(k) + 1
