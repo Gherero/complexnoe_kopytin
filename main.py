@@ -1,5 +1,7 @@
 import redis
+import hashlib
 r = redis.StrictRedis(host='localhost', port=6379, db=0)
+
 
 
 A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' * 2  # алфавит
@@ -16,9 +18,14 @@ def decrypt(ciphertext, key):
 
 def regist(username, passwrd):
     if(r.exist(username)):
-        return 0
+        return -1
 
-    return -1
+    if(not len(passwrd)):
+        return -1
+    hash_object = hashlib.sha256(passwrd.encode())
+    hex_dig = hash_object.hexdigest()
+    r.set(username,passwrd)
+    return 0
 
 
 print(encrypt('GRONSFELD', '2015'))  # шифрование
