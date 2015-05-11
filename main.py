@@ -1,4 +1,6 @@
-##import redis
+import redis
+r = redis.StrictRedis(host='localhost', port=6379, db=0)
+
 
 A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' * 2  # алфавит
 def f(mc, k, op):
@@ -11,6 +13,12 @@ def encrypt(message, key):
 
 def decrypt(ciphertext, key):
     return f(ciphertext, key, -1)
+
+def regist(username, passwrd):
+    if(r.exist(username)):
+        return 0
+
+    return -1
 
 
 print(encrypt('GRONSFELD', '2015'))  # шифрование
