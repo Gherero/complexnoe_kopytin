@@ -10,17 +10,18 @@ def f(mc, k, op):
     return ''.join([A[A.index(j) + int(k[i]) * op] for i, j in enumerate(mc)])
 
 
-def encrypt(message, key):
+def encrypt(message, key):      #шифрование текста
     return f(message, key, 1)
 
-def decrypt(ciphertext, key):
+def decrypt(ciphertext, key):   #дешифровка
     return f(ciphertext, key, -1)
 
-def regist(username, passwrd):
-    if(r.exists(username)):
-        return -1
+def regist(username, passwrd):  #регистрация пользователей
 
     if(not len(passwrd)):
+        return -2
+
+    if(r.exists(username)):
         return -1
 
     hash_object = hashlib.sha256(passwrd.encode())
@@ -28,7 +29,7 @@ def regist(username, passwrd):
     r.set(username,hex_dig)
     return 0
 
-print(regist("kirill","12345"))
+print(regist("kirill",""))
 print(encrypt('GRONSFELD', '2015'))  # шифрование
 
 print(decrypt('IRPSUFFQF', '2015'))  # расшифровывание
