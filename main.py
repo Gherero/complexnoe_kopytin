@@ -1,10 +1,9 @@
 import redis
 import hashlib
+
 r = redis.StrictRedis(host='localhost', port=6379, db=0)
 
-
-
-A = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' * 2  # алфавит
+A = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя ' * 2  # алфавит
 def f(mc, k, op): #непосредственно функция шифрования / дешифрования
     k *= len(mc) // len(k) + 1
     return ''.join([A[A.index(j) + int(k[i]) * op] for i, j in enumerate(mc)])
@@ -49,8 +48,11 @@ def auth(username, passwrd):                        #подпрограмма а
         return 0
     print("Успех")
 
+username=input("Введите имя пользователя")
 
+inp_text=input("введите открытый текст: ")
+print(переменная)
 print(auth("kirill","1234"))
-print(encrypt('kirill45', '2015'))  # шифрование
+print(encrypt('тест тест', '2015'))  # шифрование
 
-print(decrypt('misnnl', '2015'))  # расшифровывание
+print(decrypt('фетчбтёцф', '2015'))  # расшифровывание
