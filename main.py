@@ -5,7 +5,7 @@ r = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 
 A = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' * 2  # алфавит
-def f(mc, k, op):
+def f(mc, k, op): #непосредственно функция шифрования / дешифрования
     k *= len(mc) // len(k) + 1
     return ''.join([A[A.index(j) + int(k[i]) * op] for i, j in enumerate(mc)])
 
@@ -13,7 +13,7 @@ def f(mc, k, op):
 def encrypt(message, key):      #шифрование текста
     return f(message, key, 1)
 
-def decrypt(ciphertext, key):       #дешифровка
+def decrypt(ciphertext, key):       #дешифрование текста
     return f(ciphertext, key, -1)
 
 def regist(username, passwrd):      #регистрация пользователей
@@ -32,7 +32,7 @@ def regist(username, passwrd):      #регистрация пользовате
     r.set(username,hex_dig)                         #заносим в БД имя пользователя (ключ) и хеш пароля (значение)
     return 0                                        #сообщаем об успехе
 
-def auth(username, passwrd):
+def auth(username, passwrd):                        #подпрограмма аутентификации
 
     if( not(len(username) and len(passwrd))):       #проверка длины логина , пароля
         return -1
