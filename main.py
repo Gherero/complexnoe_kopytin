@@ -46,15 +46,47 @@ def auth(username, passwrd):                        #подпрограмма а
 
     if(dbhash==hex_dig):                            #сравниваем хеш из БД с введенным
         return 0
-    print("Успех")
-
-username=input("Введите имя пользователя")
-passwrd=input("ВВедите пароль")
 
 
-переменная=input("введите открытый текст: ")
-print(переменная)
-print(auth("kirill","1234"))
-print(encrypt('тест тест', '2015'))  # шифрование
+swith=input("(Р)регистрация/(А)аутентификация: ")
+if  swith=="Р" or  swith=="р":
+    print("Регистрация")
+elif  swith=="А" or  swith=="а":
+    print("Аутентификация")
+else:
+    print("Ведены не корректные данные")
+    print("Для завершения нажмите ENTER")
+    input()
+    exit()
+username=input("Введите имя пользователя: ")
+passwrd=input("Введите пароль: ")
 
-print(decrypt('фетчбтёцф', '2015'))  # расшифровывание
+if swith=="Р" or swith=="р" :
+     status=regist(username,passwrd)
+     if status==0:
+         print("Регистрация успешна: ",username)
+     else:
+         print("Неверный логин либо пароль")
+         print("Для завершения нажмите ENTER")
+         input()
+         exit()
+
+
+
+elif swith=="А" or  swith=="а" :
+    status=auth(username,passwrd)
+    if status==0:
+        print("Аутентификация успешна: ", username)
+    else:
+        print("Неверный логин либо пароль")
+        print("Для завершения нажмите ENTER")
+        input()
+        exit()
+
+
+open_txt = input("введите открытый текст: ")
+key = input("Введите ключ: ")
+
+print(encrypt(open_txt, key))  # шифрование
+
+#print(decrypt('фетчбтёцф', '2015'))  # расшифровывание
