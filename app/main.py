@@ -60,8 +60,7 @@ if  swith=="Р" or  swith=="р":
 elif  swith=="А" or  swith=="а":
     print("Аутентификация")
 else:
-    print("Ведены не корректные данные")
-    print("Для завершения нажмите ENTER")
+    print("Ведены не корректные данные \n Для завершения нажмите ENTER")
     input()
     exit()
 username=input("Введите имя пользователя: ")
@@ -90,11 +89,20 @@ elif swith=="А" or  swith=="а" :
         exit()
 
 
-open_txt = input("введите открытый текст: ")
-key = input("Введите ключ: ")
+swith=input("(Ш)шифрование\(Р)расшифровка")
+if swith=="Ш" or swith=="ш":
+    open_txt = input("Введите открытый текст: ")
+    key_txt = input("Введите ключ: ")
+    key_dic= generate_key(key_txt)
+    print(encrypt(open_txt, key_dic))  # шифрование
 
-print(encrypt(open_txt, key))  # шифрование
+elif swith=="Р" or swith=="р":
+    secure_txt = input("Введите шифрованный текст: ")
+    key_txt = input("Введите ключ: ")
+    key_dic= generate_key(key_txt)
+    print(decrypt(secure_txt,key_dic))  # расшифровывание
 
-
-
-#print(decrypt('фетчбтёцф', '2015'))  # расшифровывание
+else:
+    print("Ведены не корректные данные \n Для завершения нажмите ENTER")
+    input()
+    exit()
