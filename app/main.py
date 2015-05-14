@@ -2,10 +2,10 @@ import redis
 import hashlib
 import getpass
 
-
 r = redis.StrictRedis(host='localhost', port=6379, db=0)
 
-A = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя ' * 2  # алфавит
+
+A = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ 1234567890.,-_()' * 2  # алфавит
 def f(mc, k, op): #непосредственно функция шифрования / дешифрования
     k *= len(mc) // len(k) + 1
     return ''.join([A[A.index(j) + int(k[i]) * op] for i, j in enumerate(mc)])
@@ -28,7 +28,7 @@ def regist(username, passwrd):      #регистрация пользовате
     if(r.exists(username)):         #если пользователь существует
         return -1
 
-    hash_object = hashlib.sha512(passwrd.encode()) # генерируем хеш
+    hash_object = hashlib.sha256(passwrd.encode()) # генерируем хеш
     hex_dig = hash_object.hexdigest()
     r.set(username,hex_dig)                         #заносим в БД имя пользователя (ключ) и хеш пароля (значение)
     return 0                                        #сообщаем об успехе
@@ -41,18 +41,25 @@ def auth(username, passwrd):                        #подпрограмма а
     if(not r.exists(username)):                     #существует ли пользователь
         return -2
 
-    hash_object = hashlib.sha512(passwrd.encode())  #генирируем хеш введенного пароля
+    hash_object = hashlib.sha256(passwrd.encode())  #генирируем хеш введенного пароля
     hex_dig = hash_object.hexdigest()
 
-    dbhash=r.get(username)                          #достаем хеш из БД
+    dbhash = r.get(username).decode()                       #достаем хеш из БД
 
     if(dbhash==hex_dig):                            #сравниваем хеш из БД с введенным
+        #print(dbhash)
+        #print(hex_dig)
         return 0
+
 def generate_key(text):
     key=''
     for element in text:
         key += str(ord(element))
     return key
+
+
+
+
 
 
 swith=input(" (Р)регистрация/(А)аутентификация: ")
@@ -64,6 +71,10 @@ else:
     print("Ведены не корректные данные \n Для завершения нажмите ENTER")
     input()
     exit()
+
+
+
+
 username=input("Введите имя пользователя: ")
 passwrd=getpass.getpass("Введите пароль: ")
 
@@ -72,8 +83,8 @@ if swith=="Р" or swith=="р" :
      if status==0:
          print("Регистрация успешна: ",username)
      else:
-         print("Неверный логин либо пароль")
-         print("Для завершения нажмите ENTER")
+         print("Ведены не корректные данные \n Для завершения нажмите ENTER")
+
          input()
          exit()
 
@@ -81,16 +92,16 @@ if swith=="Р" or swith=="р" :
 
 elif swith=="А" or  swith=="а" :
     status=auth(username,passwrd)
+    print(status)
     if status==0:
         print("Аутентификация успешна: ", username)
     else:
-        print("Неверный логин либо пароль")
-        print("Для завершения нажмите ENTER")
+        print("Неверный логин либо пароль \n Для завершения нажмите ENTER")
         input()
         exit()
 
 
-swith=input("(Ш)шифрование\(Р)расшифровка")
+swith=input("(Ш)шифрование\(Р)расшифровка: ")
 if swith=="Ш" or swith=="ш":
     open_txt = input("Введите открытый текст: ")
     key_txt = input("Введите ключ: ")

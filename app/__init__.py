@@ -1,3 +1,0 @@
-import SQLAlchemy
-
-db = SQLAlchemy()
