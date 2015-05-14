@@ -1,5 +1,6 @@
 import redis
 import hashlib
+import getpass
 
 r = redis.StrictRedis(host='localhost', port=6379, db=0)
 
@@ -26,7 +27,7 @@ def regist(username, passwrd):      #регистрация пользовате
     if(r.exists(username)):         #если пользователь существует
         return -1
 
-    hash_object = hashlib.sha256(passwrd.encode()) # генерируем хеш
+    hash_object = hashlib.sha512(passwrd.encode()) # генерируем хеш
     hex_dig = hash_object.hexdigest()
     r.set(username,hex_dig)                         #заносим в БД имя пользователя (ключ) и хеш пароля (значение)
     return 0                                        #сообщаем об успехе
@@ -39,13 +40,18 @@ def auth(username, passwrd):                        #подпрограмма а
     if(not r.exists(username)):                     #существует ли пользователь
         return -2
 
-    hash_object = hashlib.sha256(passwrd.encode())  #генирируем хеш введенного пароля
+    hash_object = hashlib.sha512(passwrd.encode())  #генирируем хеш введенного пароля
     hex_dig = hash_object.hexdigest()
 
     dbhash=r.get(username)                          #достаем хеш из БД
 
     if(dbhash==hex_dig):                            #сравниваем хеш из БД с введенным
         return 0
+def generate_key(text):
+    key=''
+    for element in text:
+        key += str(ord(element))
+    return key
 
 
 swith=input("(Р)регистрация/(А)аутентификация: ")
@@ -59,7 +65,7 @@ else:
     input()
     exit()
 username=input("Введите имя пользователя: ")
-passwrd=input("Введите пароль: ")
+passwrd=getpass.getpass("Введите пароль: ")
 
 if swith=="Р" or swith=="р" :
      status=regist(username,passwrd)
@@ -88,5 +94,7 @@ open_txt = input("введите открытый текст: ")
 key = input("Введите ключ: ")
 
 print(encrypt(open_txt, key))  # шифрование
+
+
 
 #print(decrypt('фетчбтёцф', '2015'))  # расшифровывание
