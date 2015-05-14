@@ -49,8 +49,10 @@ def auth(username, passwrd):                        #подпрограмма а
     print("Успех")
 
 username=input("Введите имя пользователя")
+passwrd=input("ВВедите пароль")
 
-inp_text=input("введите открытый текст: ")
+
+переменная=input("введите открытый текст: ")
 print(переменная)
 print(auth("kirill","1234"))
 print(encrypt('тест тест', '2015'))  # шифрование
