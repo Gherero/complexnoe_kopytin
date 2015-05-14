@@ -54,7 +54,7 @@ def generate_key(text):
     return key
 
 
-swith=input("(Р)регистрация/(А)аутентификация: ")
+swith=input(" (Р)регистрация/(А)аутентификация: ")
 if  swith=="Р" or  swith=="р":
     print("Регистрация")
 elif  swith=="А" or  swith=="а":
