@@ -2,6 +2,7 @@ import redis
 import hashlib
 import getpass
 
+
 r = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 A = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя ' * 2  # алфавит
