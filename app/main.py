@@ -1,6 +1,10 @@
 import redis
 import hashlib
 import getpass
+import sqlite3
+
+con = sqlite3.connect('users.db')
+cur = con.cursor()
 
 r = redis.StrictRedis(host='localhost', port=6379, db=0)
 
@@ -93,6 +97,15 @@ if swith=="Р" or swith=="р" :
 elif swith=="А" or  swith=="а" :
     status=auth(username,passwrd)
     print(status)
+
+
+    sql = """INSERT INTO time_log(username,status)
+        VALUES ('%(username)s','%(status)s')
+        """%{"username":username,"status":status}
+    cur.execute(sql)
+    con.commit()
+    con.close()
+
     if status==0:
         print("Аутентификация успешна: ", username)
     else:

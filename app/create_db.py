@@ -3,6 +3,10 @@ import sqlite3
 
 con = sqlite3.connect('users.db')
 cur = con.cursor()
-cur.execute('CREATE TABLE users1 (id INTEGER PRIMARY KEY, firstName VARCHAR(100), secondName VARCHAR(30))')
+cur.execute('CREATE TABLE time_log ('
+            'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, '
+            'username VARCHAR(100), '
+            'status integer, '
+            'sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL)')
 con.commit()
 con.close()
