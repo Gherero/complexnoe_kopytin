@@ -3,7 +3,7 @@ import hashlib
 import getpass
 import sqlite3
 
-con = sqlite3.connect('users.db')
+con = sqlite3.connect("/home/gherero/PycharmProjects/complexnoe_kopytin/app/users.db")
 cur = con.cursor()
 
 r = redis.StrictRedis(host='localhost', port=6379, db=0)
